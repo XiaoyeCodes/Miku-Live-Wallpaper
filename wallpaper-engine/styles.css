@@ -1,0 +1,55 @@
+:root {
+  background: #05070d;
+}
+
+html,
+body,
+#wallpaper {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: #05070d;
+}
+
+#wallpaper {
+  position: relative;
+  isolation: isolate;
+  background: #05070d;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateZ(0) scale(1.002);
+  will-change: opacity;
+}
+
+#base-layer {
+  opacity: 1;
+}
+
+#blend-layer {
+  z-index: 1;
+}
+
+#audio-visualizer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

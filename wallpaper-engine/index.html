@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>时光锁屏场景</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="wallpaper" aria-label="随本地时间变化的动态壁纸">
+    <img id="base-layer" class="scene" alt="">
+    <img id="blend-layer" class="scene" alt="">
+    <canvas id="audio-visualizer" aria-hidden="true"></canvas>
+  </main>
+  <script src="aura-sync.js"></script>
+  <script src="wallpaper.js"></script>
+</body>
+</html>

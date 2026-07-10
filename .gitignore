@@ -1,0 +1,7 @@
+# Wallpaper Engine writes these locally after importing a web wallpaper.
+wallpaper-engine/project.json
+wallpaper-engine/preview.*
+
+# Windows Explorer metadata
+Thumbs.db
+desktop.ini
