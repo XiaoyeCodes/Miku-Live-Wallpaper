@@ -14,14 +14,14 @@
   ];
 
   var MINUTES_PER_DAY = 24 * 60;
-  var BAR_COUNT = 72;
+  var BAR_COUNT = 64;
   var circleBarCount = 72;
   var horizontalBarCount = 64;
   var TRANSITION_DURATION = 5000;
   var visualizerEnabled = true;
-  var visualizerMode = 'circle';
-  var targetFrameRate = 60;
-  var renderQuality = 75;
+  var visualizerMode = 'horizontal';
+  var targetFrameRate = 240;
+  var renderQuality = 100;
   var visualizerX = 84;
   var visualizerY = 79;
   var visualizerSize = 27;
@@ -34,26 +34,26 @@
   var visualizerRotationSpeed = 4;
   var gradientRotation = 0;
   var gradientSpeed = 5;
-  var audioSensitivity = 1.35;
-  var spectrumAttack = 62;
-  var spectrumRelease = 22;
+  var audioSensitivity = 2.1;
+  var spectrumAttack = 70;
+  var spectrumRelease = 47;
   var visualizerColors = [
     { r: 255, g: 91, b: 202 },
     { r: 185, g: 102, b: 255 },
     { r: 86, g: 234, b: 255 },
     { r: 255, g: 184, b: 115 }
   ];
-  var horizontalX = 48;
-  var horizontalY = 92;
+  var horizontalX = 50;
+  var horizontalY = 90;
   var horizontalWidth = 67;
-  var horizontalAmplitude = 7;
+  var horizontalAmplitude = 14;
   var horizontalBarWidth = 7;
   var horizontalBarGap = 5;
   var horizontalDirection = 'up';
   var horizontalOpacity = 92;
-  var horizontalGlow = 64;
+  var horizontalGlow = 67;
   var horizontalColorCount = 4;
-  var horizontalGradientSpeed = 4;
+  var horizontalGradientSpeed = 31;
   var horizontalColors = [
     { r: 255, g: 91, b: 202 },
     { r: 185, g: 102, b: 255 },
@@ -189,6 +189,8 @@
     var horizontalMetrics;
     var horizontalPadding;
     var verticalExtent;
+    var surfaceHeight;
+    var baseline;
     var ringDiameter = shortSide * visualizerSize / 100;
     var baseRadius = ringDiameter * 0.5 * visualizerRadius / 50;
     var barWidth = Math.max(1.4, Math.min(18, (Math.PI * 2 * baseRadius / BAR_COUNT) * visualizerBarWidth / 100));
@@ -202,6 +204,14 @@
       horizontalMetrics = horizontalBarMetrics(groupWidth);
       horizontalPadding = 14 + horizontalGlow * 0.22 + horizontalMetrics.barWidth;
       verticalExtent = horizontalDirection === 'both' ? maximumBarLength * 2 : maximumBarLength;
+      surfaceHeight = Math.max(48, Math.ceil(verticalExtent + horizontalPadding * 2));
+      if (horizontalDirection === 'down') {
+        baseline = horizontalPadding;
+      } else if (horizontalDirection === 'both') {
+        baseline = surfaceHeight * 0.5;
+      } else {
+        baseline = surfaceHeight - horizontalPadding;
+      }
       return {
         mode: 'horizontal',
         groupWidth: groupWidth,
@@ -209,8 +219,9 @@
         barWidth: horizontalMetrics.barWidth,
         barGap: horizontalMetrics.barGap,
         padding: horizontalPadding,
+        baseline: baseline,
         surfaceWidth: Math.max(64, Math.ceil(groupWidth + horizontalPadding * 2)),
-        surfaceHeight: Math.max(48, Math.ceil(verticalExtent + horizontalPadding * 2))
+        surfaceHeight: surfaceHeight
       };
     }
     return {
@@ -243,10 +254,16 @@
     var pixelWidth = Math.max(1, Math.round(logicalWidth * pixelRatio));
     var pixelHeight = Math.max(1, Math.round(logicalHeight * pixelRatio));
     var positionX = visualizerMode === 'horizontal' ? horizontalX : visualizerX;
-    var positionY = visualizerMode === 'horizontal' ? horizontalY : visualizerY;
+    var positionY;
+
+    if (visualizerMode === 'horizontal') {
+      positionY = viewportHeight * horizontalY / 100 + logicalHeight * 0.5 - geometry.baseline;
+    } else {
+      positionY = visualizerY;
+    }
 
     audioCanvas.style.left = positionX + '%';
-    audioCanvas.style.top = positionY + '%';
+    audioCanvas.style.top = visualizerMode === 'horizontal' ? positionY + 'px' : positionY + '%';
     audioCanvas.style.width = logicalWidth + 'px';
     audioCanvas.style.height = logicalHeight + 'px';
     if (canvasWidth === logicalWidth && canvasHeight === logicalHeight && canvasPixelRatio === pixelRatio && audioCanvas.width === pixelWidth && audioCanvas.height === pixelHeight) {
@@ -474,13 +491,7 @@
     var barLength;
     var color;
 
-    if (horizontalDirection === 'down') {
-      baseline = geometry.padding;
-    } else if (horizontalDirection === 'both') {
-      baseline = canvasHeight * 0.5;
-    } else {
-      baseline = canvasHeight - geometry.padding;
-    }
+    baseline = geometry.baseline;
 
     spectrumContext.save();
     spectrumContext.globalCompositeOperation = 'source-over';
@@ -1107,9 +1118,13 @@
       return targetFrameRate;
     },
     getSurface: function () {
+      var geometry = visualizerGeometry();
+
       return {
         mode: visualizerMode,
         barCount: BAR_COUNT,
+        baselineInCanvas: visualizerMode === 'horizontal' ? geometry.baseline : null,
+        configuredBaselineY: visualizerMode === 'horizontal' ? viewportHeight * horizontalY / 100 : null,
         cssWidth: canvasWidth,
         cssHeight: canvasHeight,
         pixelWidth: audioCanvas.width,
