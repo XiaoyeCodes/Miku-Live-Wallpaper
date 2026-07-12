@@ -46,10 +46,249 @@ body {
 
 #audio-visualizer {
   position: absolute;
-  inset: 0;
-  z-index: 2;
+  top: 58%;
+  left: 50%;
+  z-index: 3;
   display: block;
+  width: 1px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  pointer-events: none;
+  contain: strict;
+}
+
+.audio-orbit {
+  --orbit-x: 50%;
+  --orbit-y: 58%;
+  --disc-size: 240px;
+  --disc-impact-scale: 1;
+  --disc-opacity: 0.94;
+  --disc-glow: 0.7;
+  --disc-glow-blur: 8px;
+  --disc-outer-glow: 24px;
+  --disc-near-glow: 10px;
+  position: absolute;
+  top: var(--orbit-y);
+  left: var(--orbit-x);
+  z-index: 2;
+  width: var(--disc-size);
+  height: var(--disc-size);
+  transform: translate(-50%, -50%);
+  user-select: none;
+  pointer-events: none;
+  will-change: left, top;
+}
+
+.audio-orbit.is-hidden {
+  display: none;
+}
+
+.audio-disc {
+  position: relative;
   width: 100%;
   height: 100%;
+  overflow: visible;
+  opacity: var(--disc-opacity);
+  transform: scale(var(--disc-impact-scale));
+  transform-origin: center;
+  will-change: transform;
+}
+
+.audio-disc-image,
+.audio-disc-rim,
+.audio-disc-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.audio-disc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  clip-path: circle(49.5% at 50% 50%);
+  transform: scale(1.055);
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.audio-disc-image.is-cutout {
+  mix-blend-mode: multiply;
+  filter: saturate(1.18) contrast(1.04) brightness(1.08);
+}
+
+.audio-disc-halo {
+  inset: -7%;
+  background: radial-gradient(circle, rgba(112, 252, 255, 0.24) 0 48%, rgba(112, 252, 255, 0.08) 58%, transparent 72%);
+  filter: blur(var(--disc-glow-blur));
+  opacity: var(--disc-glow);
+  transform: scale(1.06);
+}
+
+.audio-disc-rim {
+  inset: -1px;
+  border: 1px solid rgba(164, 249, 255, 0.72);
+  background: radial-gradient(circle at 32% 20%, rgba(255, 255, 255, 0.16), transparent 40%);
+  box-shadow: inset 0 0 14px rgba(112, 252, 255, 0.24), 0 0 var(--disc-outer-glow) rgba(77, 224, 255, 0.32), 0 0 var(--disc-near-glow) rgba(255, 97, 218, 0.18);
+}
+
+#clock {
+  --clock-scale: 1;
+  --clock-digit-color: #b9e4ef;
+  --clock-secondary-color: rgba(194, 228, 239, 0.82);
+  --clock-glow-color: rgba(69, 158, 191, 0.2);
+  --clock-near-glow-color: rgba(160, 222, 236, 0.58);
+  --clock-outline-color: rgba(20, 76, 94, 0.24);
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  z-index: 3;
+  min-width: 0;
+  padding: 0;
+  color: var(--clock-secondary-color);
+  text-align: center;
+  transform: translateX(-50%) scale(var(--clock-scale));
+  transform-origin: top center;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  user-select: none;
   pointer-events: none;
+  transition: opacity 250ms ease;
+}
+
+#clock::before {
+  display: none;
+}
+
+#clock.is-hidden {
+  display: none;
+}
+
+#clock[data-theme="dawn"] {
+  --clock-digit-color: #adb9d8;
+  --clock-secondary-color: rgba(192, 204, 229, 0.84);
+  --clock-glow-color: rgba(109, 125, 182, 0.2);
+  --clock-near-glow-color: rgba(183, 198, 232, 0.52);
+  --clock-outline-color: rgba(62, 71, 122, 0.22);
+}
+
+#clock[data-theme="morning"] {
+  --clock-digit-color: #9ec4d1;
+  --clock-secondary-color: rgba(184, 215, 224, 0.84);
+  --clock-glow-color: rgba(65, 139, 163, 0.19);
+  --clock-near-glow-color: rgba(149, 205, 218, 0.5);
+  --clock-outline-color: rgba(31, 92, 109, 0.25);
+}
+
+#clock[data-theme="day"] {
+  --clock-digit-color: #70fcff;
+  --clock-secondary-color: rgba(112, 252, 255, 0.86);
+  --clock-glow-color: rgba(112, 252, 255, 0.26);
+  --clock-near-glow-color: rgba(112, 252, 255, 0.68);
+  --clock-outline-color: rgba(27, 60, 61, 0.42);
+}
+
+#clock[data-theme="dusk"] {
+  --clock-digit-color: #fac1fe;
+  --clock-secondary-color: rgba(250, 193, 254, 0.86);
+  --clock-glow-color: rgba(250, 193, 254, 0.26);
+  --clock-near-glow-color: rgba(250, 193, 254, 0.68);
+  --clock-outline-color: rgba(60, 46, 61, 0.42);
+}
+
+#clock[data-theme="night"] {
+  --clock-digit-color: #7af7f7;
+  --clock-secondary-color: rgba(122, 247, 247, 0.86);
+  --clock-glow-color: rgba(122, 247, 247, 0.26);
+  --clock-near-glow-color: rgba(122, 247, 247, 0.68);
+  --clock-outline-color: rgba(29, 59, 59, 0.42);
+}
+
+#clock.has-custom-color {
+  --clock-digit-color: var(--custom-clock-color);
+  --clock-secondary-color: var(--custom-clock-secondary-color);
+  --clock-glow-color: var(--custom-clock-glow-color);
+  --clock-near-glow-color: var(--custom-clock-near-glow-color);
+  --clock-outline-color: var(--custom-clock-outline-color);
+}
+
+.clock-time {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Bahnschrift, "Aptos Display", sans-serif;
+  font-size: clamp(2.15rem, 4.3vw, 4.45rem);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: 0.075em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 1px var(--clock-outline-color), 0 0 0.34rem var(--clock-near-glow-color), 0 0 0.92rem var(--clock-glow-color);
+}
+
+.clock-digit {
+  position: relative;
+  display: inline-block;
+  width: 0.67em;
+  height: 0.96em;
+  overflow: hidden;
+}
+
+.clock-digit-current {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: var(--clock-digit-color);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  will-change: transform, opacity;
+}
+
+.clock-digit-entering {
+  animation: clock-digit-rise 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.clock-separator {
+  display: inline-block;
+  width: 0.34em;
+  color: var(--clock-secondary-color);
+  text-align: center;
+  text-shadow: 0 0 0.32rem var(--clock-near-glow-color);
+}
+
+@keyframes clock-digit-rise {
+  0% {
+    opacity: 0.12;
+    transform: translateY(72%) scaleY(0.94);
+  }
+
+  68% {
+    opacity: 1;
+    transform: translateY(-2.5%) scaleY(1.012);
+  }
+
+  84% {
+    opacity: 1;
+    transform: translateY(0.7%) scaleY(0.998);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+
+.clock-date {
+  position: relative;
+  margin-top: 0.5rem;
+  color: var(--clock-secondary-color);
+  font-family: "Microsoft YaHei UI", sans-serif;
+  font-size: clamp(0.62rem, 1.1vw, 0.94rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }

@@ -11,7 +11,18 @@
   <main id="wallpaper" aria-label="随本地时间变化的动态壁纸">
     <img id="base-layer" class="scene" alt="">
     <img id="blend-layer" class="scene" alt="">
+    <div id="audio-orbit" class="audio-orbit" aria-hidden="true">
+      <div id="audio-disc" class="audio-disc">
+        <div class="audio-disc-halo"></div>
+        <img id="audio-disc-image" class="audio-disc-image" src="assets/visualizer/miku-singer.png" alt="">
+        <div class="audio-disc-rim"></div>
+      </div>
+    </div>
     <canvas id="audio-visualizer" aria-hidden="true"></canvas>
+    <section id="clock" aria-label="Local time" data-theme="night">
+      <div id="clock-time" class="clock-time"></div>
+      <div id="clock-date" class="clock-date"></div>
+    </section>
   </main>
   <script src="aura-sync.js"></script>
   <script src="wallpaper.js"></script>

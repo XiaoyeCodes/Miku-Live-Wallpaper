@@ -1,0 +1,591 @@
+{
+  "title": "Miku Live Wallpaper",
+  "description": "随时间变化的初音动态壁纸，包含可切换的环形/横向音乐频谱、鼓点低音炮圆盘和数字时钟。",
+  "file": "index.html",
+  "type": "web",
+  "general": {
+    "supportsaudioprocessing": true,
+    "properties": {
+      "visualizerheading": {
+        "order": 0,
+        "text": "<h3>音乐频谱</h3>",
+        "type": "text"
+      },
+      "visualizerenabled": {
+        "order": 1,
+        "text": "启用音乐频谱",
+        "type": "bool",
+        "value": true
+      },
+      "visualizermode": {
+        "order": 1.05,
+        "text": "频谱显示类型",
+        "type": "combo",
+        "value": 1,
+        "options": [
+          {
+            "label": "环形频谱",
+            "value": 1
+          },
+          {
+            "label": "横向频谱",
+            "value": 2
+          }
+        ]
+      },
+      "visualizerfps": {
+        "order": 1.1,
+        "text": "动画帧率上限",
+        "type": "combo",
+        "value": 60,
+        "options": [
+          {
+            "label": "30 FPS（省电）",
+            "value": 30
+          },
+          {
+            "label": "60 FPS（推荐）",
+            "value": 60
+          },
+          {
+            "label": "90 FPS",
+            "value": 90
+          },
+          {
+            "label": "120 FPS",
+            "value": 120
+          },
+          {
+            "label": "144 FPS",
+            "value": 144
+          },
+          {
+            "label": "240 FPS（最高）",
+            "value": 240
+          }
+        ]
+      },
+      "renderquality": {
+        "order": 1.2,
+        "text": "频谱渲染质量 (%)",
+        "type": "slider",
+        "min": 50,
+        "max": 100,
+        "value": 75
+      },
+      "ringheading": {
+        "order": 1.3,
+        "text": "<h3>环形频谱设置</h3>",
+        "type": "text",
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizerx": {
+        "order": 2,
+        "text": "水平位置 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 100,
+        "value": 84,
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizery": {
+        "order": 3,
+        "text": "垂直位置 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 100,
+        "value": 79,
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizersize": {
+        "order": 4,
+        "text": "整体大小 (%)",
+        "type": "slider",
+        "min": 12,
+        "max": 75,
+        "value": 27,
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizerradius": {
+        "order": 5,
+        "text": "频谱环半径 (%)",
+        "type": "slider",
+        "min": 30,
+        "max": 85,
+        "value": 46,
+        "condition": "visualizermode.value == 1"
+      },
+      "barcount": {
+        "order": 6,
+        "text": "环形频谱条数",
+        "type": "slider",
+        "min": 24,
+        "max": 128,
+        "value": 72,
+        "condition": "visualizermode.value == 1"
+      },
+      "barwidth": {
+        "order": 7,
+        "text": "频谱条宽度 (%)",
+        "type": "slider",
+        "min": 10,
+        "max": 100,
+        "value": 58,
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizeramplitude": {
+        "order": 8,
+        "text": "频谱跳动幅度 (%)",
+        "type": "slider",
+        "min": 10,
+        "max": 160,
+        "value": 62,
+        "condition": "visualizermode.value == 1"
+      },
+      "audiosensitivity": {
+        "order": 9,
+        "text": "整体音乐灵敏度 (%)",
+        "type": "slider",
+        "min": 25,
+        "max": 300,
+        "value": 135
+      },
+      "spectrumattack": {
+        "order": 10,
+        "text": "频谱上升速度 (%)",
+        "type": "slider",
+        "min": 15,
+        "max": 100,
+        "value": 62
+      },
+      "spectrumrelease": {
+        "order": 11,
+        "text": "频谱回落速度 (%)",
+        "type": "slider",
+        "min": 3,
+        "max": 70,
+        "value": 22
+      },
+      "visualizeropacity": {
+        "order": 12,
+        "text": "频谱透明度 (%)",
+        "type": "slider",
+        "min": 10,
+        "max": 100,
+        "value": 92,
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizerglow": {
+        "order": 13,
+        "text": "霓虹发光强度 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 100,
+        "value": 72,
+        "condition": "visualizermode.value == 1"
+      },
+      "rotationangle": {
+        "order": 14,
+        "text": "频谱旋转角度 (°)",
+        "type": "slider",
+        "min": -180,
+        "max": 180,
+        "value": -90,
+        "condition": "visualizermode.value == 1"
+      },
+      "rotationspeed": {
+        "order": 15,
+        "text": "频谱旋转速度 (°/秒)",
+        "type": "slider",
+        "min": -60,
+        "max": 60,
+        "value": 4,
+        "condition": "visualizermode.value == 1"
+      },
+      "gradientrotation": {
+        "order": 16,
+        "text": "渐变起始角度 (°)",
+        "type": "slider",
+        "min": 0,
+        "max": 360,
+        "value": 0,
+        "condition": "visualizermode.value == 1"
+      },
+      "gradientspeed": {
+        "order": 17,
+        "text": "渐变流动速度 (°/秒)",
+        "type": "slider",
+        "min": -90,
+        "max": 90,
+        "value": 5,
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizercolor1": {
+        "order": 18,
+        "text": "渐变颜色 1（粉）",
+        "type": "color",
+        "value": "1.0 0.357 0.792",
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizercolor2": {
+        "order": 19,
+        "text": "渐变颜色 2（紫）",
+        "type": "color",
+        "value": "0.725 0.4 1.0",
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizercolor3": {
+        "order": 20,
+        "text": "渐变颜色 3（青）",
+        "type": "color",
+        "value": "0.337 0.918 1.0",
+        "condition": "visualizermode.value == 1"
+      },
+      "visualizercolor4": {
+        "order": 21,
+        "text": "渐变颜色 4（暖橙）",
+        "type": "color",
+        "value": "1.0 0.722 0.451",
+        "condition": "visualizermode.value == 1"
+      },
+      "horizontalheading": {
+        "order": 22,
+        "text": "<h3>横向频谱设置</h3>",
+        "type": "text",
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalbarcount": {
+        "order": 23,
+        "text": "横向频谱条数",
+        "type": "slider",
+        "min": 24,
+        "max": 128,
+        "value": 64,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalx": {
+        "order": 24,
+        "text": "横向水平位置 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 100,
+        "value": 48,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontaly": {
+        "order": 25,
+        "text": "横向垂直位置 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 100,
+        "value": 92,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalwidth": {
+        "order": 26,
+        "text": "横向整体宽度 (%)",
+        "type": "slider",
+        "min": 10,
+        "max": 100,
+        "value": 67,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalamplitude": {
+        "order": 27,
+        "text": "横向跳动幅度 (%)",
+        "type": "slider",
+        "min": 1,
+        "max": 30,
+        "value": 7,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalbarwidth": {
+        "order": 28,
+        "text": "横向频谱条宽度",
+        "type": "slider",
+        "min": 1,
+        "max": 20,
+        "value": 7,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalbargap": {
+        "order": 29,
+        "text": "横向频谱条间距",
+        "type": "slider",
+        "min": 0,
+        "max": 20,
+        "value": 5,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontaldirection": {
+        "order": 30,
+        "text": "横向频谱跳动方向",
+        "type": "combo",
+        "value": "up",
+        "condition": "visualizermode.value == 2",
+        "options": [
+          {
+            "label": "向上",
+            "value": "up"
+          },
+          {
+            "label": "上下对称",
+            "value": "both"
+          },
+          {
+            "label": "向下",
+            "value": "down"
+          }
+        ]
+      },
+      "horizontalopacity": {
+        "order": 31,
+        "text": "横向频谱透明度 (%)",
+        "type": "slider",
+        "min": 10,
+        "max": 100,
+        "value": 92,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalglow": {
+        "order": 32,
+        "text": "横向霓虹发光 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 100,
+        "value": 64,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalcolorcount": {
+        "order": 33,
+        "text": "横向渐变颜色数量",
+        "type": "slider",
+        "min": 1,
+        "max": 4,
+        "value": 4,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalgradientspeed": {
+        "order": 34,
+        "text": "横向渐变流动速度 (°/秒)",
+        "type": "slider",
+        "min": -90,
+        "max": 90,
+        "value": 4,
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalcolor1": {
+        "order": 35,
+        "text": "横向颜色 1（粉）",
+        "type": "color",
+        "value": "1.0 0.357 0.792",
+        "condition": "visualizermode.value == 2"
+      },
+      "horizontalcolor2": {
+        "order": 36,
+        "text": "横向颜色 2（紫）",
+        "type": "color",
+        "value": "0.725 0.4 1.0",
+        "condition": "visualizermode.value == 2 && horizontalcolorcount.value >= 2"
+      },
+      "horizontalcolor3": {
+        "order": 37,
+        "text": "横向颜色 3（青）",
+        "type": "color",
+        "value": "0.337 0.918 1.0",
+        "condition": "visualizermode.value == 2 && horizontalcolorcount.value >= 3"
+      },
+      "horizontalcolor4": {
+        "order": 38,
+        "text": "横向颜色 4（暖橙）",
+        "type": "color",
+        "value": "1.0 0.722 0.451",
+        "condition": "visualizermode.value == 2 && horizontalcolorcount.value >= 4"
+      },
+      "centerheading": {
+        "order": 40,
+        "text": "<h3>中心图片与低音炮</h3>",
+        "type": "text",
+        "condition": "visualizermode.value == 1"
+      },
+      "centerimage": {
+        "order": 41,
+        "text": "中心图片",
+        "type": "combo",
+        "value": 1,
+        "options": [
+          {
+            "label": "初音歌姬（默认）",
+            "value": 1
+          },
+          {
+            "label": "初音黑胶唱片",
+            "value": 2
+          },
+          {
+            "label": "自定义图片或 Logo",
+            "value": 3
+          }
+        ],
+        "condition": "visualizermode.value == 1"
+      },
+      "customcenterimage": {
+        "order": 42,
+        "text": "选择自定义图片或 Logo",
+        "type": "file",
+        "fileType": "image",
+        "condition": "visualizermode.value == 1 && centerimage.value == 3"
+      },
+      "centersize": {
+        "order": 43,
+        "text": "中心圆盘大小 (%)",
+        "type": "slider",
+        "min": 35,
+        "max": 96,
+        "value": 68,
+        "condition": "visualizermode.value == 1"
+      },
+      "centerimagezoom": {
+        "order": 44,
+        "text": "中心图片缩放 (%)",
+        "type": "slider",
+        "min": 80,
+        "max": 160,
+        "value": 106,
+        "condition": "visualizermode.value == 1"
+      },
+      "centeropacity": {
+        "order": 45,
+        "text": "中心圆盘透明度 (%)",
+        "type": "slider",
+        "min": 10,
+        "max": 100,
+        "value": 94,
+        "condition": "visualizermode.value == 1"
+      },
+      "centerglow": {
+        "order": 46,
+        "text": "中心圆盘发光 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 100,
+        "value": 72,
+        "condition": "visualizermode.value == 1"
+      },
+      "centerrotationspeed": {
+        "order": 47,
+        "text": "中心图片旋转速度 (°/秒)",
+        "type": "slider",
+        "min": -60,
+        "max": 60,
+        "value": 12,
+        "condition": "visualizermode.value == 1"
+      },
+      "bassband": {
+        "order": 48,
+        "text": "鼓点检测低频范围",
+        "type": "slider",
+        "min": 2,
+        "max": 18,
+        "value": 4,
+        "condition": "visualizermode.value == 1"
+      },
+      "beatthreshold": {
+        "order": 49,
+        "text": "鼓点绝对触发阈值 (%)",
+        "type": "slider",
+        "min": 5,
+        "max": 80,
+        "value": 25,
+        "condition": "visualizermode.value == 1"
+      },
+      "beatdynamicthreshold": {
+        "order": 50,
+        "text": "鼓点动态门槛 (%)",
+        "type": "slider",
+        "min": 110,
+        "max": 300,
+        "value": 164,
+        "condition": "visualizermode.value == 1"
+      },
+      "beatimpact": {
+        "order": 51,
+        "text": "鼓点震动幅度 (%)",
+        "type": "slider",
+        "min": 0,
+        "max": 30,
+        "value": 14,
+        "condition": "visualizermode.value == 1"
+      },
+      "beatdamping": {
+        "order": 52,
+        "text": "鼓点回弹阻尼 (%)",
+        "type": "slider",
+        "min": 15,
+        "max": 100,
+        "value": 76,
+        "condition": "visualizermode.value == 1"
+      },
+      "beatcooldown": {
+        "order": 53,
+        "text": "鼓点最短间隔 (毫秒)",
+        "type": "slider",
+        "min": 10,
+        "max": 600,
+        "value": 64,
+        "condition": "visualizermode.value == 1"
+      },
+      "clockheading": {
+        "order": 70,
+        "text": "<h3>数字时钟</h3>",
+        "type": "text"
+      },
+      "clockenabled": {
+        "order": 71,
+        "text": "启用数字时钟",
+        "type": "bool",
+        "value": true
+      },
+      "clockcustomcolor": {
+        "order": 72,
+        "text": "使用自定义时钟色调",
+        "type": "bool",
+        "value": false
+      },
+      "clockcolor": {
+        "order": 73,
+        "text": "自定义时钟颜色",
+        "type": "color",
+        "value": "0.439 0.988 1.0"
+      },
+      "clockscale": {
+        "order": 74,
+        "text": "时钟大小 (%)",
+        "type": "slider",
+        "min": 50,
+        "max": 180,
+        "value": 180
+      },
+      "clocky": {
+        "order": 75,
+        "text": "时钟垂直位置 (%)",
+        "type": "slider",
+        "min": 1,
+        "max": 35,
+        "value": 7
+      },
+      "clockdate": {
+        "order": 76,
+        "text": "显示日期",
+        "type": "bool",
+        "value": true
+      },
+      "clockseconds": {
+        "order": 77,
+        "text": "显示秒钟",
+        "type": "bool",
+        "value": true
+      }
+    }
+  }
+}
